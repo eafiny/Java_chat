@@ -59,6 +59,22 @@ public class Server {
         }
     }
 
+    public void privateMsg(ClientHandler sender, String receiver, String msg){
+        String message = String.format("[ %s ] to [ %s ]: %s", sender.getNickname(), receiver, msg);
+        for (ClientHandler c : clients) {
+            if (c.getNickname().equals(receiver)){
+                c.sendMsg(message);
+                if (!c.equals(sender)){
+                    sender.sendMsg(message);
+                }
+                return;
+            }
+        }
+        sender.sendMsg("User" + receiver + " is not in chat now");
+    }
+
+
+
     public void subscribe(ClientHandler clientHandler){
         clients.add(clientHandler);
     }
